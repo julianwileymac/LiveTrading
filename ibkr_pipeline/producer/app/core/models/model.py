@@ -6,8 +6,8 @@ from pydantic import confloat
 from pydantic import StrictStr
 from pydantic import validator
 
-import faust
-from faust import ChannelT, StreamT
+# import faust
+# from faust import ChannelT, StreamT
 
 # kafka models
 class IbkrMarketDataProducerMessage(BaseModel):
@@ -62,30 +62,3 @@ class ProducerResponse(BaseModel):
         return str(datetime.utcnow())
 
 # Faust Models
-class EquityDelayedData(faust.Record):
-    name: StrictStr
-    message_id: StrictStr = ""
-    timestamp: StrictStr = ""
-    symbol: str
-    exchange: str
-    currency: str
-    time: datetime
-    marketDataType: int
-    minTick: float
-    bid: float
-    bidSize: float
-    ask: float
-    askSize: float
-    last: float
-    lastSize: float
-    prevBid: float
-    prevBidSize: float
-    prevAsk: float
-    prevAskSize: float
-    prevLast: float
-    prevLastSize: float
-    volume: float
-    open: float
-    high: float
-    low: float
-    close: float

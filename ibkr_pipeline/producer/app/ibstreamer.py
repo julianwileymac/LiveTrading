@@ -2,11 +2,11 @@
 import asyncio
 import time
 import ib_insync as ibi
-from ib_insync.contract import *  # noqa
-from app.core.config import KAFKA_INSTANCE
-from app.core.config import PROJECT_NAME
-from app.core.models.model import ProducerMessage
-from app.core.models.model import ProducerResponse
+from ib_insync.contract import *
+from ibkr_pipeline.producer.app.core.config import KAFKA_INSTANCE
+from ibkr_pipeline.producer.app.core.config import PROJECT_NAME
+from ibkr_pipeline.producer.app.core.models.model import IbkrMarketDataProducerMessage
+from ibkr_pipeline.producer.app.core.models.model import ProducerResponse
 import json
 import uuid
 import datetime
@@ -69,10 +69,10 @@ class IbStreamer:
                     print(datetime.datetime.now(), ticker.close)
                     msg_data = json.dumps(data).encode("ascii")
                     await aioproducer.send(topicname='mktDataStream', msg_data=msg_data)
-                    response = ProducerResponse(
-                        name=msg.name, message_id=msg.message_id, topic=topicname
-                    )
-                    logger.info(response)
+                    # response = ProducerResponse(
+                    #     name=msg.name, message_id=msg.message_id, topic=topicname
+                    # )
+                    # logger.info(response)
 
     def stop(self):
         self.ib.disconnect()

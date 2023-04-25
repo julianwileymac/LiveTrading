@@ -19,3 +19,19 @@ services:
       KAFKA_CREATE_TOPICS: "mktDataStream:1:1"
     volumes:
      - /var/run/docker.sock:/var/run/docker.sock
+  producer:
+    build:
+      context: ./ibkr_pipeline
+      dockerfile: Dockerfile
+    image: julesthecomputernerd/ibkr_pipeline_producer:latest
+    depends_on:
+      - kafka
+      - zookeeper
+    restart: unless-stopped
+    command: uvicorn app.main:app --workers 1 --host 0.0.0.0 --port 8000
+    volumes:
+      - ./ibkr_pipeline/producer/:/usr/src/app
+    ports:
+      - 8002:8000
+    env_file:
+      - ./ibkr_pipeline/.env
