@@ -1,4 +1,7 @@
-
+#
+"""
+IBKR Data Stream Handlers
+"""
 import asyncio
 import time
 import ib_insync as ibi
@@ -12,8 +15,21 @@ import uuid
 import datetime
 from loguru import logger
 
-class IbStreamer:
+class BaseStreamHandler:
+    """
+    Base class for handling ibkr streams
+    """
+    def __init__(self, client='127.0.0.1',port=7497,clientId=11, logger=None):
+        self.client = client
+        self.port = port
+        self.clientId = clientId
+        self.logger = logger
+        self.ib = ibi.IB().connect()
 
+class IbMarketDataStreamer:
+    """
+    Market data stream handler
+    """
     def __init__(self, client='127.0.0.1',port=7497,clientId=11, logger=None):
         self.client = client
         self.port = port
